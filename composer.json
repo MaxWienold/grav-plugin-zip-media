@@ -1,0 +1,29 @@
+{
+  "name": "maxwienole/zip-media",
+  "type": "grav-plugin",
+  "description": "This Plugin lets you create a zip archive of a page&#039;s media. You can choose, if this plugin should run on any specific page and which MIME-TYPES or file names should be included.",
+  "keywords": ["plugin"],
+  "homepage": "https://github.com/maxwienole/grav-plugin-zip-media",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Max Wienold",
+      "email": "maxwienold@email.de",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Grav\\Plugin\\ZipMedia\\": "classes/"
+    },
+    "classmap":  ["zip-media.php"]
+  },
+  "config": {
+    "platform": {
+      "php": "7.1.3"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+name: Zip Media
+slug: zip-media
+type: plugin
+version: 0.1.0
+description: This Plugin lets you create a zip archive of a page&#039;s media. You can choose, if this plugin should run on any specific page and which MIME-TYPES or file names should be included.
+icon: plug
+author:
+  name: Max Wienold
+  email: maxwienold@email.de
+homepage: https://github.com/maxwienold/grav-plugin-zip-media
+demo: http://demo.yoursite.com
+keywords: grav, plugin, etc
+bugs: https://github.com/maxwienole/grav-plugin-zip-media/issues
+docs: https://github.com/maxwienole/grav-plugin-zip-media/blob/develop/README.md
+license: MIT
+
+dependencies:
+  - { name: grav, version: '>=1.6.0' }
+
+form:
+  validation: loose
+  fields:
+    enabled:
+      type: toggle
+      label: PLUGIN_ADMIN.PLUGIN_STATUS
+      highlight: 1
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    text_var:
+      type: text
+      label: PLUGIN_ZIP_MEDIA.TEXT_VARIABLE
+      help: PLUGIN_ZIP_MEDIA.TEXT_VARIABLE_HELP
