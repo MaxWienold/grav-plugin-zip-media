@@ -1,9 +1,8 @@
 # Zip Media Plugin
 
-**This README.md file should be modified to describe the features, installation, configuration, and general usage of the plugin.**
+The **Zip Media** Plugin is an extension for [Grav CMS](http://github.com/getgrav/grav). It lets you create a zip archive of a page&#039;s media. You can choose, if this plugin should run for every page independently and which files should be included.
 
-The **Zip Media** Plugin is an extension for [Grav CMS](http://github.com/getgrav/grav). This Plugin lets you create a zip archive of a page&#039;s media. You can choose, if this plugin should run for every page independently and which files should be included.
-
+It requires you to save your pages via the Admin Plugin
 ## Installation
 
 Installing the Zip Media plugin can be done in one of three ways: The GPM (Grav Package Manager) installation method lets you quickly install the plugin with a simple terminal command, the manual method lets you do so via a zip file, and the admin method lets you do so via the Admin Plugin.
