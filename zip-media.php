@@ -1,6 +1,8 @@
 <?php
+
 namespace Grav\Plugin;
 
+use Grav\Common\Flex\Types\Pages\PageObject;
 use Composer\Autoload\ClassLoader;
 use Grav\Common\Plugin;
 
@@ -10,6 +12,8 @@ use Grav\Common\Plugin;
  */
 class ZipMediaPlugin extends Plugin
 {
+    protected $options;
+
     /**
      * @return array
      *
@@ -23,11 +27,8 @@ class ZipMediaPlugin extends Plugin
     public static function getSubscribedEvents(): array
     {
         return [
-            'onPluginsInitialized' => [
-                // Uncomment following line when plugin requires Grav < 1.7
-                // ['autoload', 100000],
-                ['onPluginsInitialized', 0]
-            ]
+            'onAdminSave' => ['onAdminSave', 0],
+            'onGetPageBlueprints' => ['onGetPageBlueprints', 0]
         ];
     }
 
@@ -42,18 +43,58 @@ class ZipMediaPlugin extends Plugin
     }
 
     /**
-     * Initialize the plugin
+     * @param $event
+     * @return void
      */
-    public function onPluginsInitialized(): void
+    public function onGetPageBlueprints($event): void
     {
-        // Don't proceed if we are in the admin plugin
-        if ($this->isAdmin()) {
-            return;
+
+        $types = $event->types;
+        $types->scanBlueprints('plugins://' . $this->name . '/blueprints');
+    }
+
+    /**
+     * Called when a page is saved from the admin plugin.
+     *
+     */
+    public function onAdminSave($event): bool
+    {
+        $page = $event['object'];
+        if (!($page instanceof Page || $page instanceof PageObject)) {
+            return false;
+        }
+        if (!isset($page->header->zip)) {
+            return false;
         }
 
-        // Enable the main events we are interested in
-        $this->enable([
-            // Put your main events here
-        ]);
+        $this->options = $page->header->zip;
+        $archiveFilename = $this->options->filename ?? $page->folder;
+        $path = $page->path() . "/" . $archiveFilename . ".zip";
+        $this->createZipFile($path, $page);
+
+        return true;
     }
+
+    /**
+     * @param string $path
+     * @param $page
+     * @return void
+     */
+    public function createZipFile(string $path, $page): void
+    {
+
+        $zipFlag = file_exists($path) ? \ZipArchive::OVERWRITE : \ZipArchive::CREATE;
+        try {
+            $archive = new \ZipArchive();
+            $archive->open($path, $zipFlag);
+            foreach ($this->options['media'] as $filename) {
+                $archive->addFile($page->path() . "/$filename", $filename);
+            }
+            $archive->close();
+        } catch (\Exception $e) {
+            $this->grav['log']->error($e);
+            $this->grav['admin']->setMessage('Something went wrong with the zip media plugin. See the logs for more info', 'error');
+        }
+    }
+
 }

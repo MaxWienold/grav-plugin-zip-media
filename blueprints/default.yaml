@@ -1,0 +1,34 @@
+extends@: default
+
+form:
+  fields:
+
+    tabs:
+      type: tabs
+      active: 1
+
+      fields:
+
+
+        options:
+          type: tab
+          title: PLUGIN_ADMIN.OPTIONS
+
+          fields:
+
+            header.zip:
+              type: section
+              title: 'Zip Media'
+              underline: true
+              fields:
+                .media:
+                  type: filepicker
+                  folder: '@self'
+                  multiple: true
+                  array: true
+                  label: Choose media to include in zip archive
+                .filename:
+                  label: Filename
+                  type: text
+                  placeholder: default value is page's folder name.
+
